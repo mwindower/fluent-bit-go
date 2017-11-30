@@ -24,6 +24,7 @@
 
 struct flb_api {
     char *(*output_get_property) (char *, void *);
+    void (*log) (int, char *);
 };
 
 struct flbgo_output_plugin {
@@ -39,6 +40,12 @@ char *output_get_property(char *key, void *ctx)
 {
     struct flbgo_output_plugin *plugin = ctx;
     return plugin->api->output_get_property(key, plugin->o_ins);
+}
+
+void flbgo_log(int type, char *logstr, void *ctx)
+{
+    struct flbgo_output_plugin *plugin = ctx;
+    return plugin->api->log(type, logstr);
 }
 
 #endif
